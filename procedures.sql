@@ -1,12 +1,8 @@
 --adding flight details
 create or replace procedure add_flight(FLIGHT_ID int, airline in varchar2, departure in varchar2, destination in varchar2, departure_time timestamp, arrival_time timestamp, seats_available int, base_price int, admin_id int) as
 begin
-    insert into flight values(fid, airline, departure, destination, departure_time, arrival_time, seats_available, base_price, admin_id);
+    insert into flight values(flight_id, airline, departure, destination, departure_time, arrival_time, seats_available, base_price, admin_id);
 end;
-
---execute add_flight(&fid, '&airline', '&departure', '&destination', &dept_time, &arr_time, &seats, &price, &duration, &aid);
---select * from flight;
-
 --delete flight 
 create or replace procedure delete_flight(fid number) as
 begin
@@ -17,6 +13,7 @@ end;
 create or replace procedure add_airtime(DEPARTURE in varchar2, DESTINATION in varchar2, DURATION in varchar2) as
 begin
     insert into airtime values(DEPARTURE, DESTINATION, DURATION);
+
 end;
 
 --delete airtime details
@@ -38,19 +35,6 @@ begin
 end;
 
 
---ticket table
-create table TICKET(
-    TICKET_ID int primary key,
-    CID int,
-    FLIGHT_ID int,
-    FOOD_PREF varchar(10),
-    BOOKING_DATE timestamp default systimestamp ,
-    isVALID int,
-    constraint fk_flight foreign key(FLIGHT_ID) references FLIGHT(FLIGHT_ID),
-    constraint fk_user foreign key(CID) references CUSTOMER(CID),
-    CONSTRAINT CHK_FOOD CHECK (FOOD_PREF='VEG' OR FOOD_PREF='NONVEG'),
-    CONSTRAINT CHK_VALID CHECK (isVALID='0' OR isVALID='1')
-);
 
 --add ticket
 create or replace procedure add_ticket(tid number, cid number, fid number, food_pref in varchar2, booking_date timestamp, is_valid number) as
