@@ -49,122 +49,51 @@ flag2 integer:=0; --for finding if the user has entered a valid choice for choic
 
 --program start
 BEGIN
-    --prompt user to enter choice
-    dbms_output.put_line('CHOICES');
-    dbms_output.put_line('1.Flights Table');
-    dbms_output.put_line('2.Customers Table');
-    dbms_output.put_line('3.Tickets Table');
-    dbms_output.put_line('4.Airtime Table');
-    --input the choice
-    choice_one:=&Enter_the_choice_from_above;
-    --promt user to enter choice
-    dbms_output.put_line('CHOICES');
-    dbms_output.put_line('1.Insert');
-    dbms_output.put_line('2.Delete');
-    --input the choice
-    choice_two:=&Enter_the_choice_from_above;
 
 
-
-    if choice_one=1 then
-        flag1:=1;
-        flag2:=0;
-        if choice_two=1 then
-            --call insert procedure on Flights table
             execute add_flight (&fv_flight_id, '&fv_airline', '&fv_departure', '&fv_destination', timestamp '&dept_time', timestamp '&arr_time', &seats, &price, &aid);
             select * from flight;
-            flag2:=1;
-        end if;
-        if choice_two=2 then
-            --call delete procedure on Flights table
+
+
+
             execute delete_flight(&fid);
             select * from flight;
-            flag2:=1;
-        end if;
-        if flag2=0 then
-            dbms_output.put_line('enter a valid option');
-        end if;
-    end if;
-    
-    if choice_one=2 then
-        flag1:=1;
-        flag2:=0;
-        if choice_two=1 then
-            --call insert procedure on Customers table
 
-            ct_cid := &enter_cid;
-            ct_fname := &enter_fname;
-            ct_lname := &enter_lname;
-            ct_dob := &enter_dob;
-            ct_email := &enter_email;
-            ct_mobile := &enter_mobile;
+            ct_cid = &enter_cid;
+            ct_fname = &enter_fname;
+            ct_lname = &enter_lname;
+            ct_dob = &enter_dob;
+            ct_email= &enter_email;
+            ct_mobile = &enter_mobile;
             if length(ct_mobile)<10 then
                 raise mobile_length_error;
             end if;
-            ct_passwd := &enter_passwd;
+            ct_passwd = &enter_passwd;
             execute add_customer(ct_cid, 'ct_fname', 'ct_lname', DATE 'ct_dob', 'ct_email', 'ct_mobile', 'ct_passwd');
             select * from customer;
-            flag2:=1;
-        end if;
-        if choice_two=2 then
-            --call delete procedure on Customers table
+
+
+
             ct_cid=&Enter_the_cid_to_delete;
             execute delete_customer(ct_cid);
             select * from customer;
-            flag2:=1;
-        end if;
-
-        if flag2=0 then
-            dbms_output.put_line('enter a valid option');
-        end if;
-    end if;
-
-    if choice_one=3 then
-        flag1:=1;
-        flag2:=0;
-        if choice_two=1 then
-            --call insert procedure on Tickets table
+   
             
             execute add_ticket(&tt_cid, &tt_fid, '&tt_foodpref',&tt_isValid);
             select * from ticket;
-            flag2:=1;
-        end if;
-        if choice_two=2 then
-            --call delete procedure on Tickets table
+
+
             execute delete_ticket(&tid);
             select * from ticket;
-            flag2:=1;
-        end if;
-        if flag2=0 then
-            dbms_output.put_line('enter a valid option');
-        end if;
-    end if;
 
-    if choice_one=4 then
-        flag1:=1;
-        flag2:=0;
-        if choice_two=1 then
-            --call insert procedure on Airtime table
+
             execute add_airtime(&departure, &destination, &duration);
             select * from airtime;
 
-            flag2:=1;
-        end if;
-        if choice_two=2 then
-            --call delete procedure on Airtime table
+
             execute delete_airtime(&departure, &destination);
             select * from airtime;
-            flag2:=1;
-        end if;
-        if flag2=0 then
-            dbms_output.put_line('enter a valid option');
-        end if;
-    end if;
 
-
-    if flag1=0 then
-        dbms_output.put_line('enter a valid option');
-    end if;
 --program end
 exceptions
 when mobile_length_error then

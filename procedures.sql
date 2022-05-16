@@ -35,11 +35,11 @@ begin
 end;
 
 
-
 --add ticket
-create or replace procedure add_ticket(tid number, cid number, fid number, food_pref in varchar2, booking_date timestamp, is_valid number) as
+create or replace procedure add_ticket( cid number, fid number, food_pref in varchar2, is_valid number) as
 begin
-    insert into ticket values(tid, cid, fid, food_pref, booking_date, is_valid);
+    INSERT INTO TICKET(CID,FLIGHT_ID,FOOD_PREF,isVALID)
+    VALUES(cid, fid, food_pref ,is_valid);
 end;
 
 -- delete ticket
